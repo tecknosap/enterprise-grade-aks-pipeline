@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mywebsite-ingress
+spec:
+  ingressClassName: azure-application-gateway
+  rules:
+    - host: www.tecknosap.co.uk
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mywebsite-service
+                port:
+                  number: 80  # This is correct for the Service, even though the container is on port 3000

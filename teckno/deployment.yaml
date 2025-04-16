@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mywebsite-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mywebsite
+  template:
+    metadata:
+      labels:
+        app: mywebsite
+    spec:
+      containers:
+        - name: mywebsite
+          image: tecknoacr.azurecr.io/mywebsite:v1
+          ports:
+            - containerPort: 3000  # Update to match your Dockerfile EXPOSE port
