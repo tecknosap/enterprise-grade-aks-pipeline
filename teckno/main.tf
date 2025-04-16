@@ -55,6 +55,19 @@ module "dns" {
   appgw_public_ip     = module.app_gateway.appgw_public_ip
 }
 
+module "role_assignment_appgw" {
+    source              = "./modules/role_assignment"
+    principal_id        = module.aks.aks_principal_id
+    scope              = module.app_gateway.appgw_id
+}
+
+module "role_assignment_acr" {
+    source              = "./modules/role_assignment"
+    principal_id        = module.aks.aks_principal_id
+    scope              = module.acr.acr_id
+}
+
+
 # # Grant AKS permissions to manage App Gateway
 # resource "azurerm_role_assignment" "aks_contributor_appgw" {
 #   principal_id         = module.aks.aks_principal_id
@@ -68,8 +81,3 @@ module "dns" {
 #   role_definition_name = "AcrPull"
 #   scope                = module.acr.acr_id
 # }
-module "role_assignment" {
-    source = "./modules/role_assignment"
-  principal_id = module.aks.aks_principal_id
-  scope = module.app_gateway.appgw_id
-  }
