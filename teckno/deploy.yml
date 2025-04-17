@@ -79,9 +79,9 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          kubectl apply -f $(System.DefaultWorkingDirectory)/deployment.yaml
-          kubectl apply -f $(System.DefaultWorkingDirectory)/service.yaml
-          kubectl apply -f $(System.DefaultWorkingDirectory)/ingress.yaml
+          kubectl apply -f deployment.yaml
+          kubectl apply -f service.yaml
+          kubectl apply -f ingress.yaml
 
     - task: AzureCLI@2
       displayName: 'Verify Deployment'
