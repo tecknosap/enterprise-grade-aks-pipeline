@@ -36,10 +36,10 @@ stages:
       displayName: 'Build Docker Image'
       inputs:
         command: 'build'
-        dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'  # Updated path for Dockerfile
+        dockerfile: '$(System.DefaultWorkingDirectory)/teckno/Dockerfile'  # ✅ Correct path
         repository: '$(acrServer)/$(imageName)'
         tags: '$(imageTag)'
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        buildContext: '$(System.DefaultWorkingDirectory)/teckno'          # ✅ Important for build context
 
     - task: Docker@2
       displayName: 'Push Docker Image to ACR'
