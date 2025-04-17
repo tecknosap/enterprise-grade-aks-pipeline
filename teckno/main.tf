@@ -72,8 +72,7 @@ module "dns" {
 resource "azurerm_role_assignment" "aks_contributor_appgw" {
   principal_id         = module.aks.aks_principal_id
   role_definition_name = "Contributor"
-  #scope                = module.app_gateway.appgw_id
-  scope                = azurerm_resource_group.rg.id
+  scope                = module.app_gateway.appgw_id
 }
 
 # Grant AKS permissions to pull from ACR
