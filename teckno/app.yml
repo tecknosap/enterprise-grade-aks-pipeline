@@ -1,5 +1,7 @@
-trigger: none
-# Trigger the pipeline when changes are made to the 'main' branch
+trigger:
+  branches:
+    include:
+      - main  # Trigger the pipeline when changes are made to the 'main' branch
 
 pool:
   vmImage: ubuntu-latest
@@ -16,29 +18,29 @@ stages:
       - job: validate
         continueOnError: false
         steps:
-        - task: TerraformInstaller@1
-          displayName: Install Terraform
-          inputs:
-            terraformVersion: '1.5.7'
-        
-        - task: TerraformTaskV4@4
-          displayName: Initialize Terraform Backend
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)teckno'
-            backendServiceArm: 'Azure-DevOps-SP'
-            backendAzureRmResourceGroupName: '$(resource-rg)'
-            backendAzureRmStorageAccountName: '$(stant)'
-            backendAzureRmContainerName: '$(container)'
-            backendAzureRmKey: '$(key)'
-        
-        - task: TerraformTaskV4@4
-          displayName: Validate Terraform Configuration
-          inputs:
-            provider: 'azurerm'
-            command: 'validate'
-            workingDirectory: '$(System.DefaultWorkingDirectory)teckno'
+          - task: TerraformInstaller@1
+            displayName: Install Terraform
+            inputs:
+              terraformVersion: 'latest'  # Consider pinning version for stability
+
+          - task: TerraformTaskV4@4
+            displayName: Initialize Terraform Backend
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
+              backendServiceArm: 'Azure-DevOps-SP'
+              backendAzureRmResourceGroupName: '$(resource-rg)'
+              backendAzureRmStorageAccountName: '$(stant)'
+              backendAzureRmContainerName: '$(container)'
+              backendAzureRmKey: '$(key)'
+
+          - task: TerraformTaskV4@4
+            displayName: Validate Terraform Configuration
+            inputs:
+              provider: 'azurerm'
+              command: 'validate'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
 
   - stage: tfdeploy
     condition: succeeded('tfvalidate')
@@ -46,37 +48,37 @@ stages:
     jobs:
       - job: deploy
         steps:
-        - task: TerraformInstaller@1
-          displayName: Install Terraform
-          inputs:
-            terraformVersion: 'latest'
-        
-        - task: TerraformTaskV4@4
-          displayName: Initialize Terraform Backend
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)teckno'
-            backendServiceArm: 'Azure-DevOps-SP'
-            backendAzureRmResourceGroupName: '$(resource-rg)'
-            backendAzureRmStorageAccountName: '$(stant)'
-            backendAzureRmContainerName: '$(container)'
-            backendAzureRmKey: '$(key)'
-        
-        - task: TerraformTaskV4@4
-          displayName: Plan Terraform Changes
-          inputs:
-            provider: 'azurerm'
-            command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)teckno'
-            environmentServiceNameAzureRM: 'Azure-DevOps-SP'
-            commandOptions: '-lock-timeout=300s' # Prevent lock acquisition errors
-        
-        - task: TerraformTaskV4@4
-          displayName: Apply Terraform Changes
-          inputs:
-            provider: 'azurerm'
-            command: 'apply'
-            workingDirectory: '$(System.DefaultWorkingDirectory)teckno'
-            environmentServiceNameAzureRM: 'Azure-DevOps-SP'
-            commandOptions: '-auto-approve -lock-timeout=300s' # Avoid waiting indefinitely for lock
+          - task: TerraformInstaller@1
+            displayName: Install Terraform
+            inputs:
+              terraformVersion: 'latest'  # Again, consider pinning
+
+          - task: TerraformTaskV4@4
+            displayName: Initialize Terraform Backend
+            inputs:
+              provider: 'azurerm'
+              command: 'init'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
+              backendServiceArm: 'Azure-DevOps-SP'
+              backendAzureRmResourceGroupName: '$(resource-rg)'
+              backendAzureRmStorageAccountName: '$(stant)'
+              backendAzureRmContainerName: '$(container)'
+              backendAzureRmKey: '$(key)'
+
+          - task: TerraformTaskV4@4
+            displayName: Plan Terraform Changes
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
+              environmentServiceNameAzureRM: 'Azure-DevOps-SP'
+              commandOptions: '-lock-timeout=300s'  # Prevent lock acquisition errors
+
+          - task: TerraformTaskV4@4
+            displayName: Apply Terraform Changes
+            inputs:
+              provider: 'azurerm'
+              command: 'apply'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
+              environmentServiceNameAzureRM: 'Azure-DevOps-SP'
+              commandOptions: '-auto-approve -lock-timeout=300s'  # Avoid waiting indefinitely for lock
