@@ -79,9 +79,10 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: |
-          kubectl apply -f deployment.yaml
-          kubectl apply -f service.yaml
-          kubectl apply -f ingress.yaml
+         kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/deployment.yaml
+         kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/service.yaml
+         kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/ingress.yaml
+
 
     - task: AzureCLI@2
       displayName: 'Verify Deployment'
