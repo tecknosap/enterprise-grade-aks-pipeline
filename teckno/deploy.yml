@@ -12,7 +12,7 @@ variables:
   aksClusterName: 'teckno-aks'
   resourceGroup: 'teckno-rg'
   imageName: 'mywebsite'
-  imageTag: 'v11'
+  imageTag: 'v1'
   serviceConnection: 'Azure-DevOps-SP'  # Using the specified service connection
 
 stages:
@@ -36,9 +36,10 @@ stages:
       displayName: 'Build Docker Image'
       inputs:
         command: 'build'
-        dockerfile: 'Dockerfile'
+        dockerfile: '$(System.DefaultWorkingDirectory)/Dockerfile'  # Updated path for Dockerfile
         repository: '$(acrServer)/$(imageName)'
         tags: '$(imageTag)'
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
 
     - task: Docker@2
       displayName: 'Push Docker Image to ACR'
@@ -71,14 +72,16 @@ stages:
         inlineScript: |
           az aks update --name $(aksClusterName) --resource-group $(resourceGroup) --attach-acr $(acrName)
 
-    - task: KubernetesManifest@0
+    - task: AzureCLI@2
       displayName: 'Apply Kubernetes Deployment'
       inputs:
-        action: 'apply'
-        manifests: |
-          deployment.yaml
-          service.yaml
-          ingress.yaml
+        azureSubscription: '$(serviceConnection)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          kubectl apply -f $(System.DefaultWorkingDirectory)/deployment.yaml
+          kubectl apply -f $(System.DefaultWorkingDirectory)/service.yaml
+          kubectl apply -f $(System.DefaultWorkingDirectory)/ingress.yaml
 
     - task: AzureCLI@2
       displayName: 'Verify Deployment'
@@ -90,3 +93,4 @@ stages:
           kubectl get deployments
           kubectl get pods
           kubectl get svc
+          kubectl get ingress
