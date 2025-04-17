@@ -1,0 +1,92 @@
+trigger:
+  branches:
+    include:
+      - main  # Runs pipeline when changes are pushed to 'main' branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  acrName: 'tecknoacr'
+  acrServer: 'tecknoacr.azurecr.io'
+  aksClusterName: 'teckno-aks'
+  resourceGroup: 'teckno-rg'
+  imageName: 'mywebsite'
+  imageTag: 'v11'
+  serviceConnection: 'Azure-DevOps-SP'  # Using the specified service connection
+
+stages:
+- stage: BuildAndPush
+  displayName: 'Build and Push Docker Image'
+  jobs:
+  - job: BuildPushJob
+    steps:
+    - checkout: self
+
+    - task: AzureCLI@2
+      displayName: 'Login to Azure Container Registry'
+      inputs:
+        azureSubscription: '$(serviceConnection)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az acr login --name $(acrName)
+
+    - task: Docker@2
+      displayName: 'Build Docker Image'
+      inputs:
+        command: 'build'
+        dockerfile: 'Dockerfile'
+        repository: '$(acrServer)/$(imageName)'
+        tags: '$(imageTag)'
+
+    - task: Docker@2
+      displayName: 'Push Docker Image to ACR'
+      inputs:
+        command: 'push'
+        repository: '$(acrServer)/$(imageName)'
+        tags: '$(imageTag)'
+
+- stage: DeployToAKS
+  displayName: 'Deploy Kubernetes Resources'
+  dependsOn: BuildAndPush
+  jobs:
+  - job: DeployJob
+    steps:
+    - task: AzureCLI@2
+      displayName: 'Get AKS Cluster Credentials'
+      inputs:
+        azureSubscription: '$(serviceConnection)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az aks get-credentials --resource-group $(resourceGroup) --name $(aksClusterName) --overwrite-existing
+
+    - task: AzureCLI@2
+      displayName: 'Attach ACR to AKS'
+      inputs:
+        azureSubscription: '$(serviceConnection)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          az aks update --name $(aksClusterName) --resource-group $(resourceGroup) --attach-acr $(acrName)
+
+    - task: KubernetesManifest@0
+      displayName: 'Apply Kubernetes Deployment'
+      inputs:
+        action: 'apply'
+        manifests: |
+          deployment.yaml
+          service.yaml
+          ingress.yaml
+
+    - task: AzureCLI@2
+      displayName: 'Verify Deployment'
+      inputs:
+        azureSubscription: '$(serviceConnection)'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: |
+          kubectl get deployments
+          kubectl get pods
+          kubectl get svc
