@@ -75,3 +75,12 @@ module "role_assignment" {
   appgw_id         = module.app_gateway.appgw_id
   acr_id           = module.acr.acr_id
 }
+
+
+module "log_analytics_workspace" {
+  source = "./modules/monitoring"
+  resource_group_name = azurerm_resource_group.rg.name
+  location = azurerm_resource_group.rg.location
+  acr_id = module.acr.acr_id
+  aks_cluster_id = module.aks.aks_id  
+}
