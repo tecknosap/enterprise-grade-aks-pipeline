@@ -55,26 +55,26 @@ module "dns" {
   appgw_public_ip     = module.app_gateway.appgw_public_ip
 }
 
-# # Grant AKS permissions to manage App Gateway
-# resource "azurerm_role_assignment" "aks_contributor_appgw" {
-#   principal_id         = module.aks.aks_principal_id
-#   role_definition_name = "Contributor"
-#   scope                = module.app_gateway.appgw_id
-# }
-
-# # Grant AKS permissions to pull from ACR
-# resource "azurerm_role_assignment" "aks_acr_pull" {
-#   principal_id         = module.aks.aks_principal_id
-#   role_definition_name = "AcrPull"
-#   scope                = module.acr.acr_id
-# }
-
-module "role_assignment" {
-  source           = "./modules/role_assignment"
-  aks_principal_id = module.aks.aks_principal_id
-  appgw_id         = module.app_gateway.appgw_id
-  acr_id           = module.acr.acr_id
+# Grant AKS permissions to manage App Gateway
+resource "azurerm_role_assignment" "aks_contributor_appgw" {
+  principal_id         = module.aks.aks_principal_id
+  role_definition_name = "Contributor"
+  scope                = module.app_gateway.appgw_id
 }
+
+# Grant AKS permissions to pull from ACR
+resource "azurerm_role_assignment" "aks_acr_pull" {
+  principal_id         = module.aks.aks_principal_id
+  role_definition_name = "AcrPull"
+  scope                = module.acr.acr_id
+}
+
+# module "role_assignment" {
+#   source           = "./modules/role_assignment"
+#   aks_principal_id = module.aks.aks_principal_id
+#   appgw_id         = module.app_gateway.appgw_id
+#   acr_id           = module.acr.acr_id
+# }
 
 
 module "log_analytics_workspace" {
