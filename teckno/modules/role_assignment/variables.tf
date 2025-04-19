@@ -1,20 +1,13 @@
-variable "principal_id" {
-  description = "The principal ID to assign the role to"
-  type        = string
-}
-variable "role_contributor" {
-  description = "The role definition name for Contributor"
-  type        = string
-  default     = "Contributor"
+
+# Inside modules/role_assignment/variables.tf
+variable "aks_principal_id" {
+  description = "AKS Principal ID"
 }
 
-variable "role_acr_pull" {
-  description = "The role definition name for AcrPull"
-  type        = string
-  default     = "AcrPull"
+variable "appgw_id" {
+  description = "App Gateway ID"
 }
 
-variable "scope" {
-  description = "The scope at which to assign the role"
-  type        = string
+variable "acr_id" {
+  description = "Azure Container Registry ID"
 }
