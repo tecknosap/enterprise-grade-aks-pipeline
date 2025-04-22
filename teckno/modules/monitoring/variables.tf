@@ -38,11 +38,11 @@ variable "acr_id" {
 variable "diagnostic_setting_name_aks" {
   description = "Name for the AKS diagnostic setting"
   type        = string
-  default     = "aks-diagnostics"
+  default     = "teckno-aks-diagnostics"
 }
 
 variable "diagnostic_setting_name_acr" {
   description = "Name for the ACR diagnostic setting"
   type        = string
-  default     = "acr-diagnostics"
+  default     = "teckno-acr-diagnostics"
 }
