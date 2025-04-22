@@ -1,78 +1,138 @@
-<div align="center">
-    <img src="./app/static/images/coderco_logo.jpeg" alt="CoderCo" width="300"/>
-</div>
-
-# Project: CoderCo Assignment 1 - Open Source App Hosted on Azure with Terraform 🚀
+# CoderCo Assignment 1 - Open Source App Hosted on Azure with Terraform 🚀
 
 ## Overview
+This project demonstrates how to deploy an open-source application on **Azure** using **Terraform** and **CI/CD pipelines**. The infrastructure setup mirrors an **AWS ECS**-based deployment, but with **Azure Container Apps** (or **AKS**), **Azure Container Registry (ACR)**, **Azure Application Gateway**, and **Terraform** for Infrastructure as Code (IaC).
 
-This project mirrors the AWS ECS-based setup, but we will now deploy the open-source app on Azure using Azure Container Apps. 
+The primary goal is to automate the deployment process and ensure the app is scalable, secure, and properly managed. The project covers containerization, infrastructure provisioning, CI/CD pipeline creation, and the final deployment of the application.
 
-The goal is to package, build, and deploy an application using Terraform and CI/CD pipelines, ensuring best practices in infrastructure as code, security, and scalability.
+The live site is hosted at [www.tecknosap.co.uk](http://www.tecknosap.co.uk).
 
-Key Components:
-- Azure Container Registry (ACR) for container images.
-- Azure Container Apps (or AKS) to run containers.
-- Azure Application Gateway or Front Door for HTTPS routing.
-- GitHub Actions or Azure DevOps for CI/CD (your choice).
+## Key Components
+- **Azure Container Registry (ACR)** for storing Docker images.
+- **Azure Container Apps (or AKS)** to host the containerized application.
+- **Azure Application Gateway** for routing traffic over HTTPS.
+- **Terraform** for infrastructure provisioning.
+- **Azure DevOps** for CI/CD pipelines to build, test, and deploy the application.
 
-## Task/Assignment 📝
+## Project Structure
 
-- Create a repository for your work.
-- Containerize the app and push it to Azure Container Registry (ACR).
-- Use a CI/CD pipeline (GitHub Actions, Azure DevOps, or another) to build, test, and push the container image.
-- Deploy the app on Azure using Terraform:
-  - Azure Container Apps
-- Expose the application via HTTPS using Azure Application Gateway or Azure Front Door.
-- Ensure the app is available at:
-  - https://tm.<your-domain>.co.uk or
-  - https://tm.labs.<your-domain>.co.uk
-- Add screenshots of the live app to the README.md.
-- Include an architecture diagram of your infrastructure (Lucidchart, draw.io, or Mermaid).
+### 1. **Terraform Modules**:
+The project utilizes **Terraform** to provision the following resources:
+- **Network**: Azure VNET and subnets.
+- **Application Gateway**: To manage incoming traffic to the application.
+- **Container App/AKS**: Provisions Azure Container Apps or AKS to host the containers.
+- **ACR**: Azure Container Registry to store container images.
+- **DNS Configuration**: For pointing the domain to the Application Gateway.
+- **Role Assignment**: Role-based access control (RBAC) to manage permissions.
+- **Log Analytics**: For monitoring the resources.
 
-## Guidance & Hints 📚
+### 2. **CI/CD Pipeline (Azure DevOps)**:
+The CI/CD pipeline is automated using **Azure DevOps** and includes the following stages:
+1. **Terraform Validation**: Validates the Terraform code for syntax and logical errors.
+2. **Terraform Deployment**: Applies the infrastructure changes and provisions the resources on Azure.
+3. **Build and Push Docker Image**: Builds the container image and pushes it to Azure Container Registry (ACR).
+4. **Deploy to AKS/Container Apps**: Deploys the container image to the Azure Container Apps or AKS.
 
-### Directory Structure
+### Key Features:
+- **CI/CD Integration**: Automates the build, test, and deployment processes using Azure DevOps.
+- **Infrastructure as Code**: Resources are defined and managed using Terraform for repeatability and consistency.
+- **Scalability**: Hosted on **Azure Container Apps** (or AKS), which supports horizontal scaling.
+- **Secure**: Uses RBAC for secure access control.
+- **Monitoring**: Integrated **Log Analytics** workspace for monitoring AKS and app health.
 
-- `terraform/` - Terraform configuration for Azure resources. Use modules for reusable components.
-- `app/` -  App code and Dockerfile.
-- `.github/workflows/` - CI/CD pipeline configuration (GitHub Actions). Or any other CI/CD tool you want to use.
-- `docs/` - Documentation for the project. Diagrams/Architectures.
-- `README.md` - Project documentation.
+## Technologies Used
+- **Azure**: For provisioning resources like AKS, ACR, Application Gateway, VNET.
+- **Terraform**: To automate the infrastructure deployment.
+- **Docker**: Containerization of the application.
+- **Kubernetes/Container Apps**: For running containerized applications.
+- **Azure DevOps**: For creating and managing CI/CD pipelines.
+- **Bash Scripts**: For various Azure CLI commands and Kubernetes configurations.
 
-### Local app 💻
+## Deployment Overview
 
-```bash
-cd app
+### 1. **Infrastructure Deployment (Terraform)**:
+The infrastructure is provisioned using **Terraform**, including:
+- **Resource Group**: To organize all resources.
+- **Networking**: VNET and subnets to facilitate communication.
+- **AKS/Container Apps**: To host the containerized application.
+- **Application Gateway**: To manage traffic routing over HTTPS.
+- **ACR**: To store Docker images for deployment.
+- **DNS Setup**: Ensures the app is available at specified domains.
+- **Role Assignments**: To manage access control.
 
-### create a virtual environment
-python3 -m venv .venv
+### 2. **CI/CD Pipeline**:
+The Azure DevOps pipeline consists of the following stages:
 
-source .venv/bin/activate
-pip3 install -r requirements.txt
-### run the app
-python3 app.py ## python3 app.py
-```
+#### Stage 1: **Terraform Validation**
+   - **Install Terraform**: Ensures the latest version of Terraform is installed.
+   - **Initialize Terraform Backend**: Initializes Terraform with Azure storage for state management.
+   - **Validate Terraform Configuration**: Checks for syntax and logical errors in the Terraform code.
 
-### API
+#### Stage 2: **Terraform Deployment**
+   - **Initialize Terraform Backend**: Prepares for deployment.
+   - **Plan Terraform Changes**: Generates a plan for infrastructure changes.
+   - **Apply Terraform Changes**: Provisions the infrastructure in Azure.
 
-```bash
-# Create task
-curl -X POST -H "Content-Type: application/json" -d '{"title":"New Task"}' http://localhost:3000/tasks
+#### Stage 3: **Build and Push Docker Image**
+   - **Login to ACR**: Authenticates with Azure Container Registry.
+   - **Build Docker Image**: Builds the Docker image for the application.
+   - **Push Image to ACR**: Uploads the image to ACR for use in deployment.
 
-# List tasks
-curl http://localhost:3000/tasks
+#### Stage 4: **Deploy to AKS/Container Apps**
+   - **Get AKS Credentials**: Retrieves the credentials to interact with AKS.
+   - **Attach ACR to AKS**: Links ACR to the AKS cluster.
+   - **Deploy Application**: Uses Kubernetes manifests to deploy the container to AKS or Azure Container Apps.
+   - **Verify Deployment**: Confirms the application is running by checking pod and service status.
 
-# Update task
-curl -X PUT -H "Content-Type: application/json" -d '{"completed":true}' http://localhost:3000/tasks/1
+## Architecture Diagram
 
-# Delete task
-curl -X DELETE http://localhost:3000/tasks/1
-```
+Below is the architecture diagram illustrating how the components interact within Azure:
 
-## Screenshots
+![Architecture Diagram](https://www.tecknosap.co.uk/architecture-diagram.png)
 
-Add screenshots of your deployed application here. For example:
+## Live Site Screenshot
 
-- Home Page
-- Task Manager in Action
+Here are some screenshots from the live site hosted at [www.tecknosap.co.uk](http://www.tecknosap.co.uk):
+
+![Live Site Screenshot](https://www.tecknosap.co.uk/screenshot1.jpg)
+![Live Site Screenshot 2](https://www.tecknosap.co.uk/screenshot2.jpg)
+
+## How to Run the Project
+
+### Prerequisites
+Ensure you have the following installed:
+- **Azure Subscription**: For creating and managing Azure resources.
+- **Terraform**: Version 1.0 or higher.
+- **Azure CLI**: For managing Azure resources via the command line.
+- **Docker**: To build and push the Docker image.
+- **Azure DevOps Account**: To set up and run the CI/CD pipeline.
+
+### Steps to Deploy
+
+1. **Clone the Repository**:
+   ```bash
+   git clone https://dev.azure.com/[your-organization]/[your-repository]
+Configure Terraform:
+
+Set up your Azure Service Principal and configure the environment variables for Azure DevOps.
+
+run the application deployment pipeline to deploy all resources to azure
+Initialize the Terraform Backend:
+
+terraform init
+Validate the Terraform Plan:
+
+terraform validate
+Deploy the Infrastructure:
+
+terraform apply
+Run the CI/CD Pipeline:
+
+Push changes to the main branch to trigger the CI/CD pipeline in Azure DevOps.
+run the application deployment pipeline fater all resources are deployed and avalable
+
+Conclusion
+This project demonstrates the automation of infrastructure and application deployment using Terraform, Azure, and Azure DevOps. It provides a scalable, secure, and efficient way to deploy containerized applications to Azure Kubernetes Service (or Azure Container Apps), with CI/CD pipelines for continuous integration and delivery.
+
+License
+This project is licensed under the MIT License.
