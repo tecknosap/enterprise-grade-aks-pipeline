@@ -1,17 +1,17 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mywebsite-ingress
+  name: coderco-task-manager-ingress
 spec:
   ingressClassName: azure-application-gateway
   rules:
-    - host: www.tecknosap.co.uk
+    - host: www.cloudmist.co.uk
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: mywebsite-service
+                name: coderco-task-manager-service
                 port:
-                  number: 80  # This is correct for the Service, even though the container is on port 3000
+                  number: 80 

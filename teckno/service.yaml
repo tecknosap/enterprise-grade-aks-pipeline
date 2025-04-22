@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mywebsite-service
+  name: coderco-task-manager-service
 spec:
   selector:
-    app: mywebsite
+    app: coderco-task-manager
   ports:
     - protocol: TCP
-      port: 80           # Exposed to ingress, can remain 80
-      targetPort: 3000   # Must match what the container is actually listening on
+      port: 80           
+      targetPort: 3000  
   type: ClusterIP

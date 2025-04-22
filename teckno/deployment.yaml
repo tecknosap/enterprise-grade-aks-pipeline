@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mywebsite-deployment
+  name: coderco-task-manager-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: mywebsite
+      app: coderco-task-manager
   template:
     metadata:
       labels:
-        app: mywebsite
+        app: coderco-task-manager
     spec:
       containers:
-        - name: mywebsite
-          image: tecknoacr.azurecr.io/mywebsite:v1
+        - name: coderco-task-manager
+          image: tecknoacr.azurecr.io/coderco-task-manager:v1
           ports:
-            - containerPort: 3000  # Update to match your Dockerfile EXPOSE port
+            - containerPort: 3000 
