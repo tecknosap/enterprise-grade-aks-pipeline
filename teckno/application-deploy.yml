@@ -11,7 +11,7 @@ variables:
   acrServer: 'tecknoacr.azurecr.io'
   aksClusterName: 'teckno-aks'
   resourceGroup: 'teckno-rg'
-  imageName: 'mywebsite'
+  imageName: 'coderco-task-manager'
   imageTag: 'v1'
   serviceConnection: 'Azure-DevOps-SP'  # Using the specified service connection
 
