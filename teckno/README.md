@@ -3,7 +3,7 @@
 ## 📌 **Overview**  
 This project automates the deployment of an open-source application on **Azure** using **Terraform** and **Azure DevOps CI/CD pipelines**. It provisions **Azure Kubernetes Service (AKS)** or **Azure Container Apps**, **Azure Container Registry (ACR)**, **Azure Application Gateway**, and supporting infrastructure to ensure **scalability, security, and efficiency**.
 
-🔹 **Live Site**: [www.tecknosap.co.uk](http://www.tecknosap.co.uk)  
+🔹 **When Live the Site will show here**: [www.tecknosap.co.uk](http://www.tecknosap.co.uk)  
 
 ---
 
@@ -11,81 +11,92 @@ This project automates the deployment of an open-source application on **Azure**
 | Component | Description |
 |-----------|------------|
 | **Azure Container Registry (ACR)** | Stores Docker images for deployment |
-| **Azure Kubernetes Service (AKS) / Azure Container Apps** | Hosts the containerized application |
-| **Azure Application Gateway** | Routes and manages HTTPS traffic |
-| **Terraform** | Automates infrastructure provisioning |
-| **Azure DevOps CI/CD** | Builds, tests, and deploys the application |
+| **Azure Kubernetes Service (AKS)   | Hosts the containerized application |
+| **Azure Application Gateway**      | Routes and manages HTTPS traffic |
+| **Terraform**                      | Automates infrastructure provisioning |
+| **Azure DevOps CI/CD**             | Builds, tests, and deploys the application |
 
 ---
 
 ## 📂 **Project Structure**  
 ```plaintext
+
 application-deployment-project/
 │
-├── teckno/                        # Application code & Dockerfile (main application directory)
-│   ├── main.tf                    # Terraform configuration for app-specific resources
+├── teckno/                        # Terraform configuration specific to app resources (if applicable)
 ├── app/                           # Application source code
 ├── modules/                       # Terraform modules for infrastructure
-├── application-deploy.yml         # CI/CD pipeline for application deployment
-├── infra-deploy.yml               # CI/CD pipeline for infrastructure provisioning
+├── .gitignore                     # Git ignore rules
+├── .terraform.lock.hcl            # Terraform dependency lock file
+├── application-deploy.yml         # CI/CD pipeline: Build and deploy Docker image to ACR and AKS
 ├── backend.tf                     # Terraform backend configuration
 ├── deployment.yaml                # Kubernetes deployment manifest
+├── Dockerfile                     # Dockerfile for containerizing the application
+├── infra-deploy.yml               # CI/CD pipeline: Provision Azure infrastructure with Terraform
 ├── ingress.yaml                   # Kubernetes ingress configuration
+├── main.tf                        # Main Terraform configuration file
+├── README.md                      # Project documentation
 ├── service.yaml                   # Kubernetes service configuration
-├── variables.tf                   # Terraform variable definitions
-└── README.md                      # Project documentation
-🔧 Technologies Used
-✅ Azure: AKS, ACR, Application Gateway, VNET
+└── variables.tf                   # Terraform variable definitions
+
+````
+
+## 🔧 Technologies Used
+
+✅ Azure: AKS, ACR, Application Gateway, DNS, VNET
+
 ✅ Terraform: Infrastructure as Code (IaC) automation
+
 ✅ Docker: Containerization of the application
+
 ✅ Kubernetes / Azure Container Apps: Orchestration of containers
+
 ✅ Azure DevOps: Continuous Integration & Deployment (CI/CD)
 
-🚀 Deployment Workflow
+## 🚀 Deployment Workflow
 1️⃣ Infrastructure Deployment (infra-deploy.yml)
-This pipeline provisions Azure resources using Terraform, ensuring the infrastructure is ready before application deployment.
-It creates:
-
+This pipeline provisions Azure resources using Terraform. It creates:
 Azure Kubernetes Service (AKS) / Azure Container Apps
+- Azure Container Registry (ACR)
+- Application Gateway
+- Networking components
 
-Azure Container Registry (ACR)
-
-Application Gateway
-
-Networking components
-
-✅ Run infra-deploy.yml first before moving to the application deployment.
+✅ Run infra-deploy.yml first to prepare the infrastructure.
 
 2️⃣ Application Deployment (application-deploy.yml)
-Once infrastructure is provisioned, application-deploy.yml:
+Once the infrastructure is provisioned, this pipeline:
+- Builds the Docker image
+- Pushes it to ACR
+- Deploys the application to AKS / Azure Container Apps
+  
+✅ Run application-deploy.yml after infra-deploy.yml completes.
 
-Builds the Docker image
 
-Pushes the image to Azure Container Registry (ACR)
-
-Deploys the application to AKS / Azure Container Apps
-
-✅ Run application-deploy.yml after infra-deploy.yml is complete.
-
-🔗 Final Deployment Steps
-bash
-Copy
-Edit
+## Final Deployment Steps
 git clone https://dev.azure.com/[your-organization]/[your-repository]
 cd application-deployment-project
-
 # Step 1: Deploy Infrastructure
 Run infra-deploy.yml to provision resources in Azure.
 
 # Step 2: Deploy Application
 Run application-deploy.yml to dockerize the application and deploy it to AKS.
+
 📌 Ensure infra-deploy.yml is executed first before deploying the application!
 
-##🌍 Architecture Diagram
-📌 (Replace this placeholder with an actual architecture diagram illustrating interactions between components)
+## 🌍 Architecture Diagram
+<img src="https://github.com/user-attachments/assets/f0835e17-872f-4ddc-a899-9f1b3fddd7c0" width="800" height="400" />
+
+### 📷 Deployment videos  
+**Deploying infra deployment pipeline**  
+<img src="https://github.com/user-attachments/assets/25bf6997-5376-43c0-819e-81f94691538f" width="800" height="400" />
+
+**Deploying application deployment pipeline**  
+<img src="https://github.com/user-attachments/assets/280a6761-907a-498a-8d74-fc67979138ee" width="800" height="400" />
+
 
 ### 📷 Live Site Screenshots
-📌 (Replace this placeholder with actual screenshots of the deployed application)
+<img src="https://github.com/user-attachments/assets/82aabed9-652a-41f7-959a-d68f01592c2d" width="800" height="400" />
+
 
 ### 🏁 Conclusion
 This project streamlines infrastructure provisioning and application deployment using Terraform, Azure DevOps, and Azure Kubernetes Service (AKS) / Azure Container Apps. The automated pipeline ensures scalability, security, and efficiency in deployment.
