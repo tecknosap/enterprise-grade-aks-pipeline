@@ -43,7 +43,7 @@ application-deployment-project/
 
 ## 🔧 Technologies Used
 
-✅ Azure: AKS, ACR, Application Gateway, DNS, VNET
+✅ Azure: AKS, ACR, Application Gateway, DNS, VNET / Log analytics and Role assignment
 
 ✅ Terraform: Infrastructure as Code (IaC) automation
 
@@ -56,10 +56,12 @@ application-deployment-project/
 ## 🚀 Deployment Workflow
 1️⃣ Infrastructure Deployment (infra-deploy.yml)
 This pipeline provisions Azure resources using Terraform. It creates:
-Azure Kubernetes Service (AKS) / Azure Container Apps
+- Azure Kubernetes Service (AKS)
 - Azure Container Registry (ACR)
 - Application Gateway
 - Networking components
+- DNS
+- Role Assigment
 
 ✅ Run infra-deploy.yml first to prepare the infrastructure.
 
@@ -67,7 +69,7 @@ Azure Kubernetes Service (AKS) / Azure Container Apps
 Once the infrastructure is provisioned, this pipeline:
 - Builds the Docker image
 - Pushes it to ACR
-- Deploys the application to AKS / Azure Container Apps
+- Deploys the application to AKS
   
 ✅ Run application-deploy.yml after infra-deploy.yml completes.
 
@@ -98,7 +100,7 @@ Run application-deploy.yml to dockerize the application and deploy it to AKS.
 
 
 ### 🏁 Conclusion
-This project streamlines infrastructure provisioning and application deployment using Terraform, Azure DevOps, and Azure Kubernetes Service (AKS) / Azure Container Apps. The automated pipeline ensures scalability, security, and efficiency in deployment.
+This project streamlines infrastructure provisioning and application deployment using Terraform, Azure DevOps, and Azure Kubernetes Service (AKS). The automated pipeline ensures scalability, security, and efficiency in deployment.
 
 📜 License
 Licensed under MIT License.
