@@ -67,6 +67,8 @@ stages:
               backendAzureRmStorageAccountName: '$(stant)'
               backendAzureRmContainerName: '$(container)'
               backendAzureRmKey: '$(key)'
+              allowTelemetryCollection: false
+              commandOptions: '-reconfigure'
 
           - task: TerraformTaskV4@4
             displayName: Plan Terraform Changes
