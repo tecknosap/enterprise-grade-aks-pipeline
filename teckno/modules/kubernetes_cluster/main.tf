@@ -18,8 +18,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   network_profile {
     network_plugin    = "azure"
     load_balancer_sku = "standard"
-    service_cidr      = "10.0.3.0/24"
-    dns_service_ip    = "10.0.3.10"
+    service_cidr      = var.service_cidr
+    dns_service_ip    = var.dns_service_ip
   }
 
   ingress_application_gateway {

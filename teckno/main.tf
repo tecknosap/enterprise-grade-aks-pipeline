@@ -22,7 +22,10 @@ module "network" {
   source              = "./modules/network"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-}
+  address_space = var.address_space
+  aks_address_prefixes = var.aks_address_prefixes
+  appgw_address_prefixes = var.appgw_address_prefixes
+  }
 
 # App Gateway
 module "app_gateway" {
