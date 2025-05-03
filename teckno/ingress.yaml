@@ -5,7 +5,7 @@ metadata:
 spec:
   ingressClassName: azure-application-gateway
   rules:
-    - host: www.cloudmist.co.uk
+    - host: www.tecknosap.co.uk
       http:
         paths:
           - path: /

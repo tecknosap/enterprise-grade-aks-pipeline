@@ -1,5 +1,5 @@
 resource "azurerm_dns_zone" "dns_zone" {
-  name                = "cloudmist.co.uk"
+  name                = "tecknosap.co.uk"
   resource_group_name = var.resource_group_name
 }
 
