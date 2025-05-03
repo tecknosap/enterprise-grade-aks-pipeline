@@ -17,7 +17,7 @@ Thumbs.db
 *.tfstate.*
 crash.log
 crash.*.log
-*.tfvars
+!.tfvars
 *.tfvars.json
 override.tf
 override.tf.json
