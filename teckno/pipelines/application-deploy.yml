@@ -113,8 +113,8 @@ stages:
           scriptLocation: 'inlineScript'
           inlineScript: |
             kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/kubernetes/deployment.yaml
-            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno//kubernetes/service.yaml
-            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno//kubernetes/ingress.yaml
+            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/kubernetes/service.yaml
+            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/kubernetes/ingress.yaml
 
       # ===============================
       # Verify Deployment
