@@ -1,3 +1,7 @@
+# ===============================
+# Log Analytics Workspace
+# ===============================
+
 resource "azurerm_log_analytics_workspace" "teckno_law" {
   name                = var.log_analytics_workspace_name
   resource_group_name = var.resource_group_name
@@ -5,6 +9,10 @@ resource "azurerm_log_analytics_workspace" "teckno_law" {
   retention_in_days   = 30
   sku                 = var.sku
 }
+
+# ===============================
+# Diagnostic Settings for ACR
+# ===============================
 
 resource "azurerm_monitor_diagnostic_setting" "acr-diagnostics" {
   name                     = var.diagnostic_setting_name_acr
@@ -15,4 +23,3 @@ resource "azurerm_monitor_diagnostic_setting" "acr-diagnostics" {
     category = "ContainerRegistryRepositoryEvents" # Updated to use a supported log category
   }
 }
-

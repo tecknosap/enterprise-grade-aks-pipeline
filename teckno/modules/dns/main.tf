@@ -1,8 +1,14 @@
+# ===============================
+# DNS Zone for tecknosap.co.uk
+# ===============================
 resource "azurerm_dns_zone" "dns_zone" {
   name                = "tecknosap.co.uk"
   resource_group_name = var.resource_group_name
 }
 
+# ===============================
+# A Record for www.tecknosap.co.uk pointing to App Gateway Public IP
+# ===============================
 resource "azurerm_dns_a_record" "dns_a_record" {
   name                = "www"
   zone_name           = azurerm_dns_zone.dns_zone.name

@@ -1,5 +1,6 @@
-
-# Inside modules/role_assignment/variables.tf
+# ===============================
+# Role Assignment Module - Variables
+# ===============================
 variable "aks_principal_id" {
   description = "AKS Principal ID"
 }

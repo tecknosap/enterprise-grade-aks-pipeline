@@ -1,66 +1,68 @@
+# ===============================
+# Public IP configuration for Application Gateway
+# ===============================
 resource "azurerm_public_ip" "appgw_pip" {
-  name                = "appgw-public-ip"
+  name                = var.appgw_public_ip_name
   location            = var.location
   resource_group_name = var.resource_group_name
   allocation_method   = "Static"
   sku                 = "Standard"
 }
 
+# ===============================
+# Application Gateway configuration
+# ===============================
 resource "azurerm_application_gateway" "appgw" {
-  name                = "teckno-appgw"
+  name                = var.appgw_name
   location            = var.location
   resource_group_name = var.resource_group_name
 
   sku {
-    name     = "Standard_v2"
-    tier     = "Standard_v2"
-    capacity = 2
+    name     = var.appgw_sku_name
+    tier     = var.appgw_sku_tier
+    capacity = var.appgw_capacity
   }
 
   gateway_ip_configuration {
-    name      = "appgw-ip-config"
+    name      = var.appgw_ip_config_name
     subnet_id = var.appgw_subnet_id
   }
 
   frontend_ip_configuration {
-    name                 = "appgw-fe"
+    name                 = var.frontend_ip_name
     public_ip_address_id = azurerm_public_ip.appgw_pip.id
   }
 
   frontend_port {
-    name = "frontendPort"
-    port = 80
+    name = var.frontend_port_name
+    port = var.appgw_fe_port
   }
 
-  # Minimal dummy backend address pool
   backend_address_pool {
-    name = "dummy-backend-pool"
+    name = var.backend_address_pool_name
   }
 
-  # Minimal dummy backend HTTP settings
   backend_http_settings {
-    name                  = "dummy-backend-http-settings"
+    name                  = var.backend_http_settings_name
     cookie_based_affinity = "Disabled"
-    port                  = 80
+    port                  = var.appgw_fe_port
     protocol              = "Http"
-    request_timeout       = 20
+    request_timeout       = var.appgw_http_timeout
   }
 
-  # Minimal dummy HTTP listener
   http_listener {
-    name                           = "dummy-listener"
-    frontend_ip_configuration_name = "appgw-fe"
-    frontend_port_name             = "frontendPort"
+    name                           = var.http_listener_name
+    frontend_ip_configuration_name = var.frontend_ip_name
+    frontend_port_name             = var.frontend_port_name
     protocol                       = "Http"
   }
 
-  # Minimal dummy request routing rule
   request_routing_rule {
-    name                       = "dummy-routing-rule"
+    name                       = var.request_routing_rule_name
     rule_type                  = "Basic"
-    http_listener_name         = "dummy-listener"
-    backend_address_pool_name  = "dummy-backend-pool"
-    backend_http_settings_name = "dummy-backend-http-settings"
-    priority = 1
+    http_listener_name         = var.http_listener_name
+    backend_address_pool_name  = var.backend_address_pool_name
+    backend_http_settings_name = var.backend_http_settings_name
+    priority                   = var.request_routing_priority
   }
 }

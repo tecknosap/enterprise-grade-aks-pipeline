@@ -1,11 +1,20 @@
+# ===============================
+# Trigger on main branch
+# ===============================
 trigger:
   branches:
     include:
-      - main  # Runs pipeline when changes are pushed to 'main' branch
+      - main  
 
+# ===============================
+# Agent Pool
+# ===============================
 pool:
   vmImage: 'ubuntu-latest'
 
+# ===============================
+# Global Variables
+# ===============================
 variables:
   acrName: 'tecknoacr'
   acrServer: 'tecknoacr.azurecr.io'
@@ -13,85 +22,111 @@ variables:
   resourceGroup: 'teckno-rg'
   imageName: 'coderco-task-manager'
   imageTag: 'v1'
-  serviceConnection: 'Azure-DevOps-SP'  # Using the specified service connection
+  serviceConnection: 'Azure-DevOps-SP' 
 
+# ===============================
+# Stage: Build and Push Image
+# ===============================
 stages:
 - stage: BuildAndPush
   displayName: 'Build and Push Docker Image'
   jobs:
   - job: BuildPushJob
     steps:
-    - checkout: self
+      - checkout: self
 
-    - task: AzureCLI@2
-      displayName: 'Login to Azure Container Registry'
-      inputs:
-        azureSubscription: '$(serviceConnection)'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az acr login --name $(acrName)
+      # ===============================
+      # Login to Azure Container Registry
+      # ===============================
+      - task: AzureCLI@2
+        displayName: 'Login to Azure Container Registry'
+        inputs:
+          azureSubscription: '$(serviceConnection)'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az acr login --name $(acrName)
 
-    - task: Docker@2
-      displayName: 'Build Docker Image'
-      inputs:
-        command: 'build'
-        dockerfile: '$(System.DefaultWorkingDirectory)/teckno/Dockerfile'  # ✅ Correct path
-        repository: '$(acrServer)/$(imageName)'
-        tags: '$(imageTag)'
-        buildContext: '$(System.DefaultWorkingDirectory)/teckno'          # ✅ Important for build context
+      # ===============================
+      # Build Docker Image
+      # ===============================
+      - task: Docker@2
+        displayName: 'Build Docker Image'
+        inputs:
+          command: 'build'
+          dockerfile: '$(System.DefaultWorkingDirectory)/teckno/Dockerfile'
+          repository: '$(acrServer)/$(imageName)'
+          tags: '$(imageTag)'
+          buildContext: '$(System.DefaultWorkingDirectory)/teckno'
 
-    - task: Docker@2
-      displayName: 'Push Docker Image to ACR'
-      inputs:
-        command: 'push'
-        repository: '$(acrServer)/$(imageName)'
-        tags: '$(imageTag)'
+      # ===============================
+      # Push Docker Image to ACR
+      # ===============================
+      - task: Docker@2
+        displayName: 'Push Docker Image to ACR'
+        inputs:
+          command: 'push'
+          repository: '$(acrServer)/$(imageName)'
+          tags: '$(imageTag)'
 
+# ===============================
+# Stage: Deploy to AKS
+# ===============================
 - stage: DeployToAKS
   displayName: 'Deploy Kubernetes Resources'
   dependsOn: BuildAndPush
   jobs:
   - job: DeployJob
     steps:
-    - task: AzureCLI@2
-      displayName: 'Get AKS Cluster Credentials'
-      inputs:
-        azureSubscription: '$(serviceConnection)'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az aks get-credentials --resource-group $(resourceGroup) --name $(aksClusterName) --overwrite-existing
+      # ===============================
+      # Get AKS Cluster Credentials
+      # ===============================
+      - task: AzureCLI@2
+        displayName: 'Get AKS Cluster Credentials'
+        inputs:
+          azureSubscription: '$(serviceConnection)'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az aks get-credentials --resource-group $(resourceGroup) --name $(aksClusterName) --overwrite-existing
 
-    - task: AzureCLI@2
-      displayName: 'Attach ACR to AKS'
-      inputs:
-        azureSubscription: '$(serviceConnection)'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          az aks update --name $(aksClusterName) --resource-group $(resourceGroup) --attach-acr $(acrName)
+      # ===============================
+      # Attach ACR to AKS
+      # ===============================
+      - task: AzureCLI@2
+        displayName: 'Attach ACR to AKS'
+        inputs:
+          azureSubscription: '$(serviceConnection)'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            az aks update --name $(aksClusterName) --resource-group $(resourceGroup) --attach-acr $(acrName)
 
-    - task: AzureCLI@2
-      displayName: 'Apply Kubernetes Deployment'
-      inputs:
-        azureSubscription: '$(serviceConnection)'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-         kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/deployment.yaml
-         kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/service.yaml
-         kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/ingress.yaml
+      # ===============================
+      # Apply Kubernetes Manifests
+      # ===============================
+      - task: AzureCLI@2
+        displayName: 'Apply Kubernetes Deployment'
+        inputs:
+          azureSubscription: '$(serviceConnection)'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/deployment.yaml
+            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/service.yaml
+            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/ingress.yaml
 
-
-    - task: AzureCLI@2
-      displayName: 'Verify Deployment'
-      inputs:
-        azureSubscription: '$(serviceConnection)'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          kubectl get deployments
-          kubectl get pods
-          kubectl get svc
-          kubectl get ingress
+      # ===============================
+      # Verify Deployment
+      # ===============================
+      - task: AzureCLI@2
+        displayName: 'Verify Deployment'
+        inputs:
+          azureSubscription: '$(serviceConnection)'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            kubectl get deployments
+            kubectl get pods
+            kubectl get svc
+            kubectl get ingress

@@ -1,3 +1,6 @@
+# ===============================
+# Terraform Backend Configuration
+# ===============================
 terraform {
   backend "azurerm" {
     resource_group_name  = "az-01-rg"

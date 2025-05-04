@@ -1,3 +1,6 @@
+# ===============================
+# Kubernetes Deployment
+# ===============================
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -13,7 +16,10 @@ spec:
         app: coderco-task-manager
     spec:
       containers:
+        # ===============================
+        # Application Container
+        # ===============================
         - name: coderco-task-manager
           image: tecknoacr.azurecr.io/coderco-task-manager:v1
           ports:
-            - containerPort: 3000 
+            - containerPort: 3000

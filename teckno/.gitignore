@@ -1,4 +1,6 @@
-# Ignore environment files
+# ===============================
+# Environment
+# ===============================
 .env
 .venv
 env/
@@ -7,11 +9,15 @@ ENV/
 env.bak/
 venv.bak/
 
-# Ignore system files
+# ===============================
+# System
+# ===============================
 .DS_Store
 Thumbs.db
 
-# Ignore Terraform-related files
+# ===============================
+# Terraform
+# ===============================
 **/.terraform/*
 *.tfstate
 *.tfstate.*
@@ -25,19 +31,19 @@ override.tf.json
 *_override.tf.json
 .terraform.tfstate.lock.info
 .terraform.lock.hcl
-
-# Allow terraform.lock.hcl explicitly
 !.terraform.lock.hcl
-
-# Allow tfstate files explicitly (use with caution)
 !*.tfstate
 !*.tfstate.*
 
-# Ignore CLI configuration files
+# ===============================
+# Terraform CLI Config
+# ===============================
 .terraformrc
 terraform.rc
 
-# Ignore Python-related files and directories
+# ===============================
+# Python
+# ===============================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -61,13 +67,17 @@ share/python-wheels/
 *.egg
 MANIFEST
 
-# PyInstaller and installer logs
+# ===============================
+# PyInstaller
+# ===============================
 *.manifest
 *.spec
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# ===============================
+# Testing & Coverage
+# ===============================
 htmlcov/
 .tox/
 .nox/
@@ -82,88 +92,139 @@ coverage.xml
 .pytest_cache/
 cover/
 
-# Django related files
+# ===============================
+# Django
+# ===============================
 *.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
-# Flask related files
+# ===============================
+# Flask
+# ===============================
 instance/
 .webassets-cache
 
-# Scrapy related files
+# ===============================
+# Scrapy
+# ===============================
 .scrapy
 
-# Sphinx documentation
+# ===============================
+# Sphinx
+# ===============================
 docs/_build/
 
-# PyBuilder directories
+# ===============================
+# PyBuilder
+# ===============================
 .pybuilder/
 target/
 
-# Jupyter Notebook checkpoints
+# ===============================
+# Jupyter
+# ===============================
 .ipynb_checkpoints
 
-# IPython config files
+# ===============================
+# IPython
+# ===============================
 profile_default/
 ipython_config.py
 
-# pyenv files (usually not needed for libraries)
+# ===============================
+# pyenv
+# ===============================
 # .python-version
 
-# pipenv and poetry lock files (if necessary, you can uncomment these lines to include them)
+# ===============================
+# pipenv / poetry
+# ===============================
 #Pipfile.lock
 #poetry.lock
 
-# pdm files (if needed, uncomment this to include them)
+# ===============================
+# pdm
+# ===============================
 .pdm.toml
 .pdm-python
 .pdm-build/
 
-# PEP 582 for pyflow and pdm
+# ===============================
+# PEP 582
+# ===============================
 __pypackages__/
 
-# Celery related files
+# ===============================
+# Celery
+# ===============================
 celerybeat-schedule
 celerybeat.pid
 
-# SageMath parsed files
+# ===============================
+# SageMath
+# ===============================
 *.sage.py
 
-# Spyder project settings
+# ===============================
+# Spyder
+# ===============================
 .spyderproject
 .spyproject
 
-# Rope project settings
+# ===============================
+# Rope
+# ===============================
 .ropeproject
 
-# mkdocs related files
+# ===============================
+# mkdocs
+# ===============================
 /site
 
-# mypy cache
+# ===============================
+# mypy
+# ===============================
 .mypy_cache/
 .dmypy.json
 dmypy.json
 
-# Pyre type checker files
+# ===============================
+# Pyre
+# ===============================
 .pyre/
 
-# pytype static analyzer files
+# ===============================
+# pytype
+# ===============================
 .pytype/
 
-# Cython debug symbols
+# ===============================
+# Cython
+# ===============================
 cython_debug/
 
-# JetBrains (PyCharm) specific files
+# ===============================
+# PyCharm
+# ===============================
 # .idea/
 
-# Ruff cache
+# ===============================
+# Ruff
+# ===============================
 .ruff_cache/
 
-# PyPI config file
+# ===============================
+# PyPI
+# ===============================
 .pypirc
 
-# GIF files (do not ignore)
+# ===============================
+# Images
+# ===============================
 !*.gif
 
+# ===============================
+# Hub Virtual Network
+# ===============================
