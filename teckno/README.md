@@ -86,17 +86,17 @@ Run application-deploy.yml to dockerize the application and deploy it to AKS.
 📌 Ensure infra-deploy.yml is executed first before deploying the application!
 
 ## 🌍 Architecture Diagram
-![Architecture Diagram](./aks.gif)
+![Architecture Diagram](./assets/aks.gif)
 
 ### 📷 Deployment videos  
 **Deploying infra deployment pipeline**  
-![Infra Deployment](./infra.gif)
+![Infra Deployment](./assets/infra.gif)
 
 **Deploying application deployment pipeline**  
-![App Deployment](./application-deployment.gif)
+![App Deployment](./assets/application-deployment.gif)
 
 ### 📷 Live Site Screenshots
-![Live Site](./tecknosap.gif)
+![Live Site](./assets/tecknosap.gif)
 
 
 ### 🏁 Conclusion

@@ -31,9 +31,9 @@ override.tf.json
 *_override.tf.json
 .terraform.tfstate.lock.info
 .terraform.lock.hcl
-!.terraform.lock.hcl
-!*.tfstate
-!*.tfstate.*
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
 
 # ===============================
 # Terraform CLI Config

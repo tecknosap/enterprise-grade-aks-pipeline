@@ -54,10 +54,10 @@ stages:
         displayName: 'Build Docker Image'
         inputs:
           command: 'build'
-          dockerfile: '$(System.DefaultWorkingDirectory)/teckno/Dockerfile'
+          dockerfile: '$(System.DefaultWorkingDirectory)/teckno/docker/Dockerfile'
           repository: '$(acrServer)/$(imageName)'
           tags: '$(imageTag)'
-          buildContext: '$(System.DefaultWorkingDirectory)/teckno'
+          buildContext: '$(System.DefaultWorkingDirectory)/teckno/docker/Dockerfile'
 
       # ===============================
       # Push Docker Image to ACR
@@ -112,9 +112,9 @@ stages:
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
           inlineScript: |
-            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/deployment.yaml
-            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/service.yaml
-            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/ingress.yaml
+            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno/kubernetes/deployment.yaml
+            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno//kubernetes/service.yaml
+            kubectl apply -f $(System.DefaultWorkingDirectory)/teckno//kubernetes/ingress.yaml
 
       # ===============================
       # Verify Deployment
