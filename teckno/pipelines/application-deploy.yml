@@ -57,7 +57,7 @@ stages:
           dockerfile: '$(System.DefaultWorkingDirectory)/teckno/docker/Dockerfile'
           repository: '$(acrServer)/$(imageName)'
           tags: '$(imageTag)'
-          buildContext: '$(System.DefaultWorkingDirectory)/teckno/docker/Dockerfile'
+          buildContext: '$(System.DefaultWorkingDirectory)/teckno/'
 
       # ===============================
       # Push Docker Image to ACR
