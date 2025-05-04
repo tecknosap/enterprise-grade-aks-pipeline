@@ -47,7 +47,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)//teckno/infra'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
             backendServiceArm: 'Azure-DevOps-SP'
             backendAzureRmResourceGroupName: '$(resource-rg)'
             backendAzureRmStorageAccountName: '$(stant)'
@@ -64,7 +64,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'validate'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno/infra'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
 
 # ===============================
 # Stage: Terraform Deploy
@@ -92,7 +92,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)//teckno/infra'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
             backendServiceArm: 'Azure-DevOps-SP'
             backendAzureRmResourceGroupName: '$(resource-rg)'
             backendAzureRmStorageAccountName: '$(stant)'
@@ -109,7 +109,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)//teckno/infra'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
             environmentServiceNameAzureRM: 'Azure-DevOps-SP'
             commandOptions: '-lock-timeout=300s'
 
@@ -121,6 +121,6 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'apply'
-            workingDirectory: '$(System.DefaultWorkingDirectory)//teckno/infra'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
             environmentServiceNameAzureRM: 'Azure-DevOps-SP'
             commandOptions: '-auto-approve -lock-timeout=300s'
