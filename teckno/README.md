@@ -83,7 +83,6 @@ Once the infrastructure is provisioned, this pipeline:
 
 ✅ Run application-deploy.yml after infra-deploy.yml completes.
 
-
 ## Final Deployment Steps
 git clone https://dev.azure.com/[your-organization]/[your-repository]
 cd application-deployment-project

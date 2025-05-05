@@ -19,6 +19,7 @@ Thumbs.db
 # Terraform
 # ===============================
 *.terraform/*
+.terraform/
 *.tfstate
 *.tfstate.*
 crash.log
