@@ -1,6 +1,11 @@
 # Use an official Python runtime as a parent image
 FROM python:3.9
 
+
+# Create a non-root user and switch to it
+RUN adduser --disabled-password --gecos "" appuser
+USER appuser
+
 # Set the working directory inside the container
 WORKDIR /usr/src/app
 
