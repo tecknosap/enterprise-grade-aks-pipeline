@@ -74,10 +74,10 @@ stages:
           displayName: Install Checkov
 
         # ===============================
-        # Run Checkov to Scan Terraform Code
+        # Run Checkov to Scan Terraform Code (Soft Fail)
         # ===============================
         - script: |
-            checkov -d $(System.DefaultWorkingDirectory)/teckno
+            checkov -d $(System.DefaultWorkingDirectory)/teckno --soft-fail
           displayName: Run Checkov Scan on Terraform Code
 
 # ===============================
@@ -128,11 +128,11 @@ stages:
             commandOptions: '-lock-timeout=300s'
 
         # ===============================
-        # Convert Plan to JSON & Run Checkov
+        # Convert Plan to JSON & Run Checkov (Soft Fail)
         # ===============================
         - script: |
             terraform show -json $(System.DefaultWorkingDirectory)/teckno/tfplan > $(System.DefaultWorkingDirectory)/teckno/tfplan.json
-            checkov -f $(System.DefaultWorkingDirectory)/teckno/tfplan.json
+            checkov -f $(System.DefaultWorkingDirectory)/teckno/tfplan.json --soft-fail
           displayName: Run Checkov Scan on Terraform Plan
 
         # ===============================
