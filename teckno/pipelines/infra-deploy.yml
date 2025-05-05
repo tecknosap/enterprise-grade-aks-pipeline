@@ -1,4 +1,27 @@
 # ===============================
+# Trigger on main branch
+# ===============================
+trigger:
+  branches:
+    include:
+      - main  
+
+# ===============================
+# Agent Pool
+# ===============================
+pool:
+  vmImage: ubuntu-latest
+
+# ===============================
+# Global Variables
+# ===============================
+variables:
+  resource-rg: 'az-01-rg'
+  stant: 'stro90123wss'
+  container: 'tfstate'
+  key: 'terraform.tfstate'
+
+# ===============================
 # Stage: Terraform Validate
 # ===============================
 stages:
@@ -103,7 +126,7 @@ stages:
             workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
             environmentServiceNameAzureRM: 'Azure-DevOps-SP'
             commandOptions: '-lock-timeout=300s'
-        
+
         # ===============================
         # Convert Plan to JSON & Run Checkov
         # ===============================
