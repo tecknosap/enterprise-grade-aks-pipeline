@@ -18,7 +18,7 @@ Thumbs.db
 # ===============================
 # Terraform
 # ===============================
-**/.terraform/*
+*.terraform/*
 *.tfstate
 *.tfstate.*
 crash.log
@@ -34,6 +34,7 @@ override.tf.json
 .terraform.lock.hcl
 *.tfstate
 *.tfstate.*
+**/.terraform/*
 
 # ===============================
 # Terraform CLI Config
