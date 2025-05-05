@@ -1,27 +1,4 @@
 # ===============================
-# Trigger on main branch
-# ===============================
-trigger:
-  branches:
-    include:
-      - main  
-
-# ===============================
-# Agent Pool
-# ===============================
-pool:
-  vmImage: ubuntu-latest
-
-# ===============================
-# Global Variables
-# ===============================
-variables:
-  resource-rg: 'az-01-rg'
-  stant: 'stro90123wss'
-  container: 'tfstate'
-  key: 'terraform.tfstate'
-
-# ===============================
 # Stage: Terraform Validate
 # ===============================
 stages:
@@ -65,6 +42,20 @@ stages:
             provider: 'azurerm'
             command: 'validate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
+
+        # ===============================
+        # Install Checkov
+        # ===============================
+        - script: |
+            pip3 install checkov
+          displayName: Install Checkov
+
+        # ===============================
+        # Run Checkov to Scan Terraform Code
+        # ===============================
+        - script: |
+            checkov -d $(System.DefaultWorkingDirectory)/teckno
+          displayName: Run Checkov Scan on Terraform Code
 
 # ===============================
 # Stage: Terraform Deploy
@@ -112,6 +103,14 @@ stages:
             workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
             environmentServiceNameAzureRM: 'Azure-DevOps-SP'
             commandOptions: '-lock-timeout=300s'
+        
+        # ===============================
+        # Convert Plan to JSON & Run Checkov
+        # ===============================
+        - script: |
+            terraform show -json $(System.DefaultWorkingDirectory)/teckno/tfplan > $(System.DefaultWorkingDirectory)/teckno/tfplan.json
+            checkov -f $(System.DefaultWorkingDirectory)/teckno/tfplan.json
+          displayName: Run Checkov Scan on Terraform Plan
 
         # ===============================
         # Terraform Apply
