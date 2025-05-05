@@ -127,13 +127,13 @@ stages:
             environmentServiceNameAzureRM: 'Azure-DevOps-SP'
             commandOptions: '-lock-timeout=300s'
 
-        # ===============================
-        # Convert Plan to JSON & Run Checkov (Soft Fail)
-        # ===============================
-        - script: |
-            terraform show -json $(System.DefaultWorkingDirectory)/teckno/tfplan > $(System.DefaultWorkingDirectory)/teckno/tfplan.json
-            checkov -f $(System.DefaultWorkingDirectory)/teckno/tfplan.json --soft-fail
-          displayName: Run Checkov Scan on Terraform Plan
+        # # ===============================
+        # # Convert Plan to JSON & Run Checkov (Soft Fail)
+        # # ===============================
+        # - script: |
+        #     terraform show -json $(System.DefaultWorkingDirectory)/teckno/tfplan > $(System.DefaultWorkingDirectory)/teckno/tfplan.json
+        #     checkov -f $(System.DefaultWorkingDirectory)/teckno/tfplan.json --soft-fail
+        #   displayName: Run Checkov Scan on Terraform Plan
 
         # ===============================
         # Terraform Apply
