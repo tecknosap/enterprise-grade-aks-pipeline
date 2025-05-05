@@ -100,7 +100,7 @@ Run application-deploy.yml to dockerize the application and deploy it to AKS.
 
 ### 📷 Deployment videos  
 **Deploying infra deployment pipeline**  
-![Infra Deployment](./assets/infra.gif)
+![Infra Deployment](./assets/infra-deployment.gif)
 
 **Deploying application deployment pipeline**  
 ![App Deployment](./assets/application-deployment.gif)
