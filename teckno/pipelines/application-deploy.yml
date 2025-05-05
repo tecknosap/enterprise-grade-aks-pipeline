@@ -59,6 +59,16 @@ stages:
           tags: '$(imageTag)'
           buildContext: '$(System.DefaultWorkingDirectory)/teckno/'
 
+            # Run Trivy Scan and Fail on Vulnerabilities
+      - task: Bash@3
+        displayName: 'Run Trivy Scan'
+        inputs:
+          targetType: 'inline'
+          script: |
+            curl -sfL https://github.com/aquasecurity/trivy/releases/download/v0.30.0/trivy_0.30.0_Linux-64bit.deb -o trivy.deb
+            sudo dpkg -i trivy.deb
+            trivy image --severity HIGH,CRITICAL $(acrServer)/$(imageName):$(imageTag) || exit 1
+
       # ===============================
       # Push Docker Image to ACR
       # ===============================
