@@ -23,21 +23,22 @@ This project automates the deployment of an open-source application on **Azure**
 
 application-deployment-project/
 │
-├── teckno/                        # Terraform configuration specific to app resources (if applicable)
-├── app/                           # Application source code
-├── modules/                       # Terraform modules for infrastructure
-├── .gitignore                     # Git ignore rules
-├── .terraform.lock.hcl            # Terraform dependency lock file
-├── application-deploy.yml         # CI/CD pipeline: Build and deploy Docker image to ACR and AKS
-├── backend.tf                     # Terraform backend configuration
-├── deployment.yaml                # Kubernetes deployment manifest
-├── Dockerfile                     # Dockerfile for containerizing the application
-├── infra-deploy.yml               # CI/CD pipeline: Provision Azure infrastructure with Terraform
-├── ingress.yaml                   # Kubernetes ingress configuration
-├── main.tf                        # Main Terraform configuration file
-├── README.md                      # Project documentation
-├── service.yaml                   # Kubernetes service configuration
-└── variables.tf                   # Terraform variable definitions
+├── teckno/                        # Contains all infrastructure, app code, and configuration
+│   ├── app/                       # Application source code
+│   ├── assets/                    # GIFs and images for documentation
+│   ├── docker/                    # Docker-related files (e.g., Dockerfile, scripts)
+│   ├── infra/                     # Terraform modules and infra configuration
+│   ├── kubernetes/                # Kubernetes manifests (deployment, service, ingress)
+│   ├── pipelines/                 # Azure DevOps CI/CD pipeline YAMLs
+│   │   ├── application-deploy.yml
+│   │   └── infra-deploy.yml
+│   ├── .gitignore                 # Git ignore rules
+│   ├── .terraform.lock.hcl        # Provider lock file (no secrets; safe for source control)
+│   ├── backend.tf                 # Terraform backend configuration
+│   ├── main.tf                    # Main Terraform configuration
+│   ├── variables.tf               # Terraform variable definitions
+│   └── README.md                  # Project documentation
+
 
 ````
 
