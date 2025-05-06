@@ -47,7 +47,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno/terraform'
             backendServiceArm: 'Azure-DevOps-SP'
             backendAzureRmResourceGroupName: '$(resource-rg)'
             backendAzureRmStorageAccountName: '$(stant)'
@@ -64,7 +64,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'validate'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno/terraform'
 
         # ===============================
         # Install Checkov
@@ -77,7 +77,7 @@ stages:
         # Run Checkov to Scan Terraform Code (Soft Fail)
         # ===============================
         - script: |
-            checkov -d $(System.DefaultWorkingDirectory)/teckno --soft-fail
+            checkov -d $(System.DefaultWorkingDirectory)/teckno/terraform --soft-fail
           displayName: Run Checkov Scan on Terraform Code
 
 # ===============================
@@ -106,7 +106,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno/terraform'
             backendServiceArm: 'Azure-DevOps-SP'
             backendAzureRmResourceGroupName: '$(resource-rg)'
             backendAzureRmStorageAccountName: '$(stant)'
@@ -123,17 +123,9 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno/terraform'
             environmentServiceNameAzureRM: 'Azure-DevOps-SP'
             commandOptions: '-lock-timeout=300s'
-
-        # # ===============================
-        # # Convert Plan to JSON & Run Checkov (Soft Fail)
-        # # ===============================
-        # - script: |
-        #     terraform show -json $(System.DefaultWorkingDirectory)/teckno/tfplan > $(System.DefaultWorkingDirectory)/teckno/tfplan.json
-        #     checkov -f $(System.DefaultWorkingDirectory)/teckno/tfplan.json --soft-fail
-        #   displayName: Run Checkov Scan on Terraform Plan
 
         # ===============================
         # Terraform Apply
@@ -143,6 +135,6 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'apply'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/teckno/terraform'
             environmentServiceNameAzureRM: 'Azure-DevOps-SP'
             commandOptions: '-auto-approve -lock-timeout=300s'
