@@ -27,7 +27,7 @@ application-deployment-project/
 │   ├── app/                       # Application source code
 │   ├── assets/                    # GIFs and images for documentation
 │   ├── docker/                    # Docker-related files (e.g., Dockerfile, scripts)
-│   ├── infra/                     # Terraform modules and infra configuration
+│   ├── terraform/                 # Terraform modules and infra configuration
 │   ├── kubernetes/                # Kubernetes manifests (deployment, service, ingress)
 │   ├── pipelines/                 # Azure DevOps CI/CD pipeline YAMLs
 │   │   ├── application-deploy.yml
