@@ -3,7 +3,7 @@
 ## 📌 **Overview**  
 This project automates the deployment of an open-source application on **Azure** using **Terraform** and **Azure DevOps CI/CD pipelines**. It provisions **Azure Kubernetes Service (AKS)** or **Azure Container Apps**, **Azure Container Registry (ACR)**, **Azure Application Gateway**, and supporting infrastructure to ensure **scalability, security, and efficiency**.
 
-🔹 **When Live the Site will show here**: [www.tecknosap.co.uk](http://www.tecknosap.co.uk)  
+<!-- 🔹 **When Live the Site will show here**: [www.tecknosap.co.uk](http://www.tecknosap.co.uk) -->
 
 ---
 
