@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: azure-application-gateway
   rules:
-    - host: www.tecknosap.co.uk
+    - host: your domain here
       http:
         paths:
           # ===============================

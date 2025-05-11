@@ -2,7 +2,7 @@
 # DNS Zone for tecknosap.co.uk
 # ===============================
 resource "azurerm_dns_zone" "dns_zone" {
-  name                = "tecknosap.co.uk"
+  name                = "your domain her"
   resource_group_name = var.resource_group_name
 }
 
