@@ -22,23 +22,15 @@ This project automates the deployment of an open-source application on **Azure**
 ```plaintext
 
 application-deployment-project/
-│
-├── teckno/                        # Contains all infrastructure, app code, and configuration
-│   ├── app/                       # Application source code
-│   ├── assets/                    # GIFs and images for documentation
-│   ├── docker/                    # Docker-related files (e.g., Dockerfile, scripts)
-│   ├── terraform/                 # Terraform modules and infra configuration
-│   ├── kubernetes/                # Kubernetes manifests (deployment, service, ingress)
-│   ├── pipelines/                 # Azure DevOps CI/CD pipeline YAMLs
-│   │   ├── application-deploy.yml
-│   │   └── infra-deploy.yml
-│   ├── .gitignore                 # Git ignore rules
-│   ├── .terraform.lock.hcl        # Provider lock file (no secrets; safe for source control)
-│   ├── backend.tf                 # Terraform backend configuration
-│   ├── main.tf                    # Main Terraform configuration
-│   ├── variables.tf               # Terraform variable definitions
-│   └── README.md                  # Project documentation
-
+├── assets/                 # Project assets
+├── teckno/                 # Main infra code
+│   ├── app/                # Sample app code
+│   ├── docker/             # Docker configs
+│   ├── kubernetes/         # K8s manifests
+│   ├── pipelines/          # CI/CD scripts
+│   ├── terraform/          # Terraform IaC
+│   └── .gitignore          # Git ignore rules
+├── README.md               # Project overview
 
 ````
 
